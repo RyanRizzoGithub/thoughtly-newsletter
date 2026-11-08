@@ -1,0 +1,47 @@
+name: Update newsletter archive
+
+on:
+  schedule:
+    # Daily at 6:17am Arizona time (13:17 UTC). Off the hour to avoid queue delays.
+    - cron: "17 13 * * *"
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Re-fetch every issue"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Scrape archive
+        run: python scripts/scrape.py ${{ inputs.full && '--full' || '' }}
+
+      - name: Commit changes
+        run: |
+          if [ -z "$(git status --porcelain -- data/posts.json)" ]; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "thoughtly-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/posts.json
+          git commit -m "Update newsletter archive"
+          git push
