@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup
 
 # ── Config ──────────────────────────────────────────────────────────────
 BASE = "https://www.bethoughtly.com"
-ARCHIVE = f"{BASE}/newsletters/welcome-to-thoughtly"
+ARCHIVE = f"{BASE}/newsletters/thoughtly-notes"
 OUT = Path(__file__).resolve().parent.parent / "data" / "posts.json"
 
 REFRESH_NEWEST = 5        # always re-fetch the newest N issues (catches edits)
@@ -79,7 +79,7 @@ def parse_archive_page(html):
     urls = []
     for a in soup.select("a[href]"):
         href = urljoin(BASE, a["href"])
-        if "/newsletters/welcome-to-thoughtly/posts/" in href:
+        if "/newsletters/thoughtly-notes/posts/" in href:
             href = href.split("#")[0].split("?")[0]
             if href not in urls:
                 urls.append(href)

@@ -1,8 +1,8 @@
 # thoughtly-newsletter
 
-In-app reader for the "Welcome to Thoughtly" newsletter, embedded in the Thoughtly branded Kajabi app.
+In-app reader for the "Thoughtly Notes" newsletter (formerly "Welcome to Thoughtly"), embedded in the Thoughtly branded Kajabi app.
 
-- `scripts/scrape.py` pulls every issue from https://www.bethoughtly.com/newsletters/welcome-to-thoughtly into `data/posts.json`.
+- `scripts/scrape.py` pulls every issue from https://www.bethoughtly.com/newsletters/thoughtly-notes into `data/posts.json`.
 - `.github/workflows/scrape.yml` runs it daily (6:17am AZ) and commits changes. Run it manually from the Actions tab, with "Re-fetch every issue" for a full refresh.
 - `index.html` is the reader: list, search, and reading view on one page (hash routing, no navigation, so the app webview never kicks out to the browser).
 - Hosted on GitHub Pages at `newsletter.bethoughtly.com` (see `CNAME`).
@@ -25,7 +25,7 @@ If Kajabi changes its post layout, update the three selectors at the top of `scr
   <iframe
     id="tly-nl-frame"
     src="https://newsletter.bethoughtly.com/"
-    title="Welcome to Thoughtly"
+    title="Thoughtly Notes"
     style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:block;"
   ></iframe>
 </div>
